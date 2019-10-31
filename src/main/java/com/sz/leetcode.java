@@ -166,10 +166,10 @@ public class leetcode {
             // 相反的，sum 的值小于 Integer.MIN_VALUE / 10 ，那么一定会溢出
             // 如果 sum 的值等于 Integer.MIN_VALUE / 10，那么 a % 10 的值如果小于于 Integer.MIN_VALUE % 10 也会溢出
             //Integer.MAX_VALUE:2147483647;  Integer.MIN_VALUE:-2147483648
-            if (sum > Integer.MAX_VALUE/10
-                    || sum < Integer.MIN_VALUE/10
-                    || ((sum == Integer.MAX_VALUE/10)&&(a % 10>7))
-                    || ((sum == Integer.MIN_VALUE/10)&&(a % 10<-8)) ) {
+            if (sum > Integer.MAX_VALUE / 10
+                    || sum < Integer.MIN_VALUE / 10
+                    || ((sum == Integer.MAX_VALUE / 10) && (a % 10 > 7))
+                    || ((sum == Integer.MIN_VALUE / 10) && (a % 10 < -8))) {
                 return 0;
             }
             sum = sum * 10 + a % 10;
@@ -182,7 +182,80 @@ public class leetcode {
     @Test
     public void test05() {
         System.out.println(reverse(-1463847412));
-        System.out.println(Integer.MAX_VALUE);
-        System.out.println(Integer.MIN_VALUE);
+    }
+
+    /**
+     * 判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
+     * 输入: 121
+     * 输出: true
+     * 输入: -121
+     * 输出: false
+     * 解释: 从左向右读, 为 -121 。 从右向左读, 为 121- 。因此它不是一个回文数。
+     * 输入: 10
+     * 输出: false
+     * 解释: 从右向左读, 为 01 。因此它不是一个回文数。
+     */
+
+    public boolean isPalindrome(int x) {
+        // 特殊情况：
+        // 当 x < 0 时，x 不是回文数。
+        // 同样地，如果数字的最后一位是 0，为了使该数字为回文，
+        // 则其第一位数字也应该是 0
+        // 只有 0 满足这一属性
+        if (x < 0 || (x % 10 == 0 && x != 0)) {
+            return false;
+        }
+        String s = String.valueOf(x);
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] != chars[chars.length - 1 - i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Test
+    public void test06() {
+        long s = System.nanoTime();
+        System.out.println(isPalindrome(1234554321));
+        long e = System.nanoTime();
+        System.out.println(e - s);
+    }
+
+    /**
+     * 罗马数字包含以下七种字符: I， V， X， L，C，D 和 M
+     * 字符          数值
+     * I             1
+     * V             5
+     * X             10
+     * L             50
+     * C             100
+     * D             500
+     * M             1000
+     * 例如， 罗马数字 2 写做 II ，即为两个并列的 1。12 写做 XII ，即为 X + II 。 27 写做  XXVII, 即为 XX + V + II 。
+     * 通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，
+     * 例如 4 不写做 IIII，而是 IV。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。
+     * 同样地，数字 9 表示为 IX。
+     * 这个特殊的规则只适用于以下六种情况：
+     * I 可以放在 V (5) 和 X (10) 的左边，来表示 4 和 9。
+     * X 可以放在 L (50) 和 C (100) 的左边，来表示 40 和 90。 
+     * C 可以放在 D (500) 和 M (1000) 的左边，来表示 400 和 900。
+     * 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
+     * I:1，II:2，III:3，IV:4，V:5，
+     */
+    public int romanToInt(String s) {
+        //System.out.println(s.length());
+
+        //s.startsWith("");
+        return 1;
+    }
+
+    @Test
+    public void test07() {
+        long s = System.nanoTime();
+        System.out.println(romanToInt("XXVII"));
+        long e = System.nanoTime();
+        System.out.println(e - s);
     }
 }
