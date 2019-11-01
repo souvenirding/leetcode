@@ -2,10 +2,19 @@ package com.sz;
 
 import org.junit.Test;
 
-public class leetcode {
+import java.util.HashMap;
+import java.util.Map;
+
+
+/**
+ * @author Administrator
+ */
+public class LeetCodeTest {
+    private String s;
+
     public static void main(String[] args) {
 
-        int nums[] = {2, 7, 11, 15};
+        int[] nums = {2, 7, 11, 15};
         System.out.println(twoSum(nums, 9));
     }
 
@@ -97,14 +106,8 @@ public class leetcode {
      * 解释：小A 只猜对了第二次。
      */
 
-    public void guess(int a[], int b[]) {
-//        int m = 0;
-//        for (int i = 0; i < 3; i++) {
-//            if (a[i] == b[i]) {
-//                m += 1;
-//            }
-//        }
-//        System.out.println(m);
+    public void guess(int[] a, int[] b) {
+
         System.out.println((a[0] == b[0] ? 1 : 0) + (a[1] == b[1] ? 1 : 0) + (a[2] == b[2] ? 1 : 0));
     }
 
@@ -125,7 +128,7 @@ public class leetcode {
      *  J 中的字符不重复。
      */
 
-    public void Aa(String s1, String s2) {
+    public void search(String s1, String s2) {
         char[] a = s1.toCharArray();
         char[] b = s2.toCharArray();
         int m = 0;
@@ -141,9 +144,9 @@ public class leetcode {
 
     @Test
     public void test04() {
-        String J = "aA";
-        String S = "aAAbbbb";
-        Aa(J, S);
+        String j = "aA";
+        String s = "aAAbbbb";
+        search(j, s);
     }
 
     /**
@@ -166,10 +169,12 @@ public class leetcode {
             // 相反的，sum 的值小于 Integer.MIN_VALUE / 10 ，那么一定会溢出
             // 如果 sum 的值等于 Integer.MIN_VALUE / 10，那么 a % 10 的值如果小于于 Integer.MIN_VALUE % 10 也会溢出
             //Integer.MAX_VALUE:2147483647;  Integer.MIN_VALUE:-2147483648
-            if (sum > Integer.MAX_VALUE / 10
-                    || sum < Integer.MIN_VALUE / 10
-                    || ((sum == Integer.MAX_VALUE / 10) && (a % 10 > 7))
-                    || ((sum == Integer.MIN_VALUE / 10) && (a % 10 < -8))) {
+            int max = Integer.MAX_VALUE / 10;
+            int min = Integer.MIN_VALUE / 10;
+            if (sum > max
+                    || sum < min
+                    || ((sum == max) && (a % 10 > 7))
+                    || ((sum == min) && (a % 10 < -8))) {
                 return 0;
             }
             sum = sum * 10 + a % 10;
@@ -202,7 +207,8 @@ public class leetcode {
         // 同样地，如果数字的最后一位是 0，为了使该数字为回文，
         // 则其第一位数字也应该是 0
         // 只有 0 满足这一属性
-        if (x < 0 || (x % 10 == 0 && x != 0)) {
+        int m = x % 10;
+        if (x < 0 || (m == 0 && x != 0)) {
             return false;
         }
         String s = String.valueOf(x);
@@ -244,17 +250,166 @@ public class leetcode {
      * 给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。
      * I:1，II:2，III:3，IV:4，V:5，
      */
-    public int romanToInt(String s) {
-        //System.out.println(s.length());
 
-        //s.startsWith("");
-        return 1;
+    /**
+     * 使用数组
+     *
+     * @param s
+     * @return
+     */
+    public int romanToInt(String s) {
+        char[] chars = s.toCharArray();
+        int[] numbers = new int[chars.length];
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == 'I') {
+                numbers[i] = 1;
+            } else if (chars[i] == 'V') {
+                numbers[i] = 5;
+            } else if (chars[i] == 'X') {
+                numbers[i] = 10;
+            } else if (chars[i] == 'L') {
+                numbers[i] = 50;
+            } else if (chars[i] == 'C') {
+                numbers[i] = 100;
+            } else if (chars[i] == 'D') {
+                numbers[i] = 500;
+            } else if (chars[i] == 'M') {
+                numbers[i] = 1000;
+            }
+        }
+        if (numbers.length == 1) {
+            return numbers[0];
+        }
+        int sum = 0;
+        for (int j = 0; j < numbers.length - 1; j++) {
+            if (numbers[j] >= numbers[j + 1]) {
+                //如果当前值大于后面，则加上当前值
+                sum += numbers[j];
+            } else {
+                //如果当前值小于后面，则加上组合值
+                sum = sum + numbers[j + 1] - numbers[j];
+                j++;
+            }
+        }
+        //上述遍历操作在当前值大于后面值时，未加最后一个值，需加上
+        if (numbers[numbers.length - 2] >= numbers[numbers.length - 1]) {
+            sum += numbers[numbers.length - 1];
+        }
+        return sum;
+    }
+
+    /**
+     * map实现
+     *
+     * @param s
+     * @return
+     */
+    public int romanToIntMap(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        char[] chars = s.toCharArray();
+        if (chars.length == 1) {
+            return map.get(chars[0]);
+        }
+        int sum = 0;
+        for (int i = 0; i < chars.length - 1; i++) {
+            if (map.get(chars[i]) < map.get(chars[i + 1])) {
+                //两个字符,即当前值小于后面值
+                sum = sum + map.get(chars[i + 1]) - map.get(chars[i]);
+                i++;
+            } else {
+                //单个字符
+                sum += map.get(chars[i]);
+            }
+        }
+        return sum;
+    }
+
+    /**
+     * 最优的算法
+     *
+     * @param s
+     * @return
+     */
+    public int romanToInt2(String s) {
+        char[] chars = s.toCharArray();
+        int ret = 0;
+        for (int i = 0, length = chars.length; i < length; i++) {
+            char c = chars[i];
+            switch (c) {
+                case 'M':
+                    ret += 1000;
+                    break;
+                case 'D':
+                    ret += 500;
+                    break;
+                case 'C':
+                    if (i < length - 1) {
+                        if (chars[i + 1] == 'M') {
+                            ret += 900;
+                            i++;
+                            break;
+                        } else if (chars[i + 1] == 'D') {
+                            ret += 400;
+                            i++;
+                            break;
+                        }
+                    }
+                    ret += 100;
+                    break;
+                case 'L':
+                    ret += 50;
+                    break;
+                case 'X':
+                    if (i < length - 1) {
+                        if (chars[i + 1] == 'C') {
+                            ret += 90;
+                            i++;
+                            break;
+                        } else if (chars[i + 1] == 'L') {
+                            ret += 40;
+                            i++;
+                            break;
+                        }
+                    }
+                    ret += 10;
+                    break;
+                case 'V':
+                    ret += 5;
+                    break;
+                default:
+                    // I
+                    if (i < length - 1) {
+                        if (chars[i + 1] == 'X') {
+                            ret += 9;
+                            i++;
+                            break;
+                        } else if (chars[i + 1] == 'V') {
+                            ret += 4;
+                            i++;
+                            break;
+                        }
+                    }
+                    ret += 1;
+                    break;
+            }
+        }
+        return ret;
     }
 
     @Test
     public void test07() {
         long s = System.nanoTime();
-        System.out.println(romanToInt("XXVII"));
+        //System.out.println(romanToInt("MCMXCIV"));//耗时：169187
+        System.out.println(romanToIntMap("MCMXCIV"));//耗时：2740590
+        //System.out.println(romanToInt2("MCMXCIV"));//耗时：98765
         long e = System.nanoTime();
         System.out.println(e - s);
     }
