@@ -407,8 +407,10 @@ public class LeetCodeTest {
     @Test
     public void test07() {
         long s = System.nanoTime();
-        //System.out.println(romanToInt("MCMXCIV"));//耗时：169187
-        System.out.println(romanToIntMap("MCMXCIV"));//耗时：2740590
+        //耗时：169187
+        //System.out.println(romanToInt("MCMXCIV"));
+        //耗时：2740590
+        System.out.println(romanToIntMap("MCMXCIV"));
         //System.out.println(romanToInt2("MCMXCIV"));//耗时：98765
         long e = System.nanoTime();
         System.out.println(e - s);
