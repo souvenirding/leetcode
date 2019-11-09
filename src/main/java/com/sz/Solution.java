@@ -2,6 +2,11 @@ package com.sz;
 
 import org.junit.Test;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
 /**
  * @author ding
  * @date 2019/11/6
@@ -48,5 +53,130 @@ public class Solution {
         String[] str2 = {"flower", "flows", "flight"};
         System.out.println(longestCommonPrefix(str2));
 
+    }
+
+    /**
+     * 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+     * 有效字符串需满足：
+     * 左括号必须用相同类型的右括号闭合。
+     * 左括号必须以正确的顺序闭合。
+     * 注意空字符串可被认为是有效字符串。
+     * 输入: "()"
+     * 输出: true
+     * 输入: "()[]{}"
+     * 输出: true
+     * 输入: "(]"
+     * 输出: false
+     * 输入: "([)]"
+     * 输出: false
+     * 输入: "{[]}"
+     * 输出: true
+     */
+
+    /**
+     * 1.利用栈实现
+     *
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        //空串满足
+        if (s.isEmpty() || s == "") {
+            return true;
+        }
+        //字符串个数为奇数，不满足
+        if ((s.length() & 1) == 1) {
+            return false;
+        }
+
+        char[] chars = s.toCharArray();
+        //第一个字符为闭括号时不满足
+        if (chars[0] == '}' || chars[0] == ')' || chars[0] == ']') {
+            return false;
+        }
+        Map<Character, Character> map = new HashMap<Character, Character>(16) {{
+            put('{', '}');
+            put('(', ')');
+            put('[', ']');
+        }};
+        Stack<Character> stack = new Stack<>();
+        stack.push(chars[0]);
+        for (int i = 1; i < chars.length; i++) {
+            //如果是开括号，入栈
+            if (map.containsKey(chars[i])) {
+                stack.push(chars[i]);
+            } else if (map.get(stack.lastElement()) == chars[i]) {
+                //如果是栈顶开括号对应的闭括号，出栈
+                stack.pop();
+            } else {
+                //以上两种都不满足，false
+                return false;
+            }
+        }
+        if (stack.isEmpty()) {
+            //当栈为空，满足条件
+            return true;
+        }
+        return false;
+    }
+
+    @Test
+    public void test01() {
+        System.out.println(isValid("(()])}[}[}[]][}}[}{})][[(]({])])}}(])){)((){"));
+    }
+
+    /**
+     * 2.开心消消乐式解法
+     */
+    public boolean isValid3(String s) {
+        //判断是否存在一对括号
+        while (s.contains("()") || s.contains("{}") || s.contains("[]")) {
+            //如果存在则将这一对括号消除
+            if (s.contains("()")) {
+                s = s.replace("()", "");
+            }
+            if (s.contains("[]")) {
+                s = s.replace("[]", "");
+            }
+            if (s.contains("{}")) {
+                s = s.replace("{}", "");
+            }
+        }
+        //如果消除所有的成对括号后，字符串为空，则有效
+        return s.isEmpty();
+    }
+
+
+    @Test
+    public void test1() {
+        System.out.println(Fb(5));
+    }
+
+    /**
+     * 循环实现斐波那契数列
+     *
+     * @param n
+     * @return
+     */
+    public int Fb(int n) {
+        if (n <= 0) {
+            return -1;
+        }
+        if (n == 1 || n == 2) {
+            return 1;
+        }
+        int temp = 0, k = 1, p = 1;
+        for (int i = 1; i < n - 1; i++) {
+            temp = k + p;
+            k = p;
+            p = temp;
+        }
+        return p;
+    }
+
+    @Test
+    public void test14() {
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println(time);
     }
 }
