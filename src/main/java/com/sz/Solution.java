@@ -111,11 +111,7 @@ public class Solution {
                 return false;
             }
         }
-        if (stack.isEmpty()) {
-            //当栈为空，满足条件
-            return true;
-        }
-        return false;
+        return stack.isEmpty();
     }
 
     @Test
