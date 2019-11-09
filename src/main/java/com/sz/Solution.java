@@ -79,7 +79,7 @@ public class Solution {
      */
     public boolean isValid(String s) {
         //空串满足
-        if (s.isEmpty() || s == "") {
+        if (s.isEmpty()) {
             return true;
         }
         //字符串个数为奇数，不满足
