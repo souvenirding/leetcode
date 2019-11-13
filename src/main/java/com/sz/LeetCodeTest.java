@@ -165,9 +165,9 @@ public class LeetCodeTest {
         while (a != 0) {
             // 由于后续运算 sum = sum * 10 + a % 10
             // 如果 sum 的值大于 Integer.MAX_VALUE / 10 ，那么一定会溢出
-            // 如果 sum 的值等于 Integer.MAX_VALUE / 10，那么 a % 10 的值如果大于 Integer.MAX_VALUE % 10 也会溢出
+            // 如果 sum 的值等于 Integer.MAX_VALUE / 10，那么 a % 10 的值如果大于 Integer.MAX_VALUE % 10 也会溢出，Integer.MAX_VALUE个位为7
             // 相反的，sum 的值小于 Integer.MIN_VALUE / 10 ，那么一定会溢出
-            // 如果 sum 的值等于 Integer.MIN_VALUE / 10，那么 a % 10 的值如果小于于 Integer.MIN_VALUE % 10 也会溢出
+            // 如果 sum 的值等于 Integer.MIN_VALUE / 10，那么 a % 10 的值如果小于于 Integer.MIN_VALUE % 10 也会溢出，Integer.MIN_VALUE个位为8
             //Integer.MAX_VALUE:2147483647;  Integer.MIN_VALUE:-2147483648
             int max = Integer.MAX_VALUE / 10;
             int min = Integer.MIN_VALUE / 10;
@@ -414,5 +414,31 @@ public class LeetCodeTest {
         //System.out.println(romanToInt2("MCMXCIV"));//耗时：98765
         long e = System.nanoTime();
         System.out.println(e - s);
+    }
+
+    @Test
+    public void test09() {
+//        Integer a = 400;
+//        Integer b = 400;
+//        Integer c = 40;
+//        Integer d = 40;
+//        System.out.println(a == b);
+//        System.out.println(c == d);
+//        System.out.println(a.equals(b));
+
+        Map<String, String> map = new HashMap<>();
+//        map.put("a", "a");
+//        map.put("s", "s");
+//        map.put("d", "d");
+//        map.forEach((key, value) -> {
+//            System.out.println(key + ":" + value);
+//        });
+
+        String put = map.put("1", "2");
+        System.out.println(put);
+        String s = map.put("1", "3");
+        System.out.println(s);
+
+
     }
 }
